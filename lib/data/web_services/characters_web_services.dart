@@ -16,11 +16,21 @@ class CharactersWebServices {
     dio = Dio(options);
   }
 
-  Future<List<Map<String,dynamic>>> getAllCharaters() async {
+  // Future<List<Map<String,dynamic>>> getAllCharaters() async {
+  //   try {
+  //     Response response = await dio.get('characters');
+  //     print("toto${response.data}");
+  //     return json.decode(response.data);
+  //   } catch (e) {
+  //     print("nini${e.toString()}");
+  //     return [];
+  //   }
+  // }
+  Future<List<dynamic>> getAllCharacters() async {
     try {
       Response response = await dio.get('characters');
-      print(response.toString());
-      return json.decode(response.data);
+      print(response.data.toString());
+      return response.data;
     } catch (e) {
       print(e.toString());
       return [];
