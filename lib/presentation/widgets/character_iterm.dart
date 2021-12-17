@@ -16,7 +16,6 @@ class CharacterItem extends StatelessWidget {
       padding: EdgeInsetsDirectional.all(4),
       decoration: BoxDecoration(
         color: MyColors.myWhite,
-        // color: Colors.blue,
         borderRadius: BorderRadius.circular(8),
       ),
       child: GridTile(
