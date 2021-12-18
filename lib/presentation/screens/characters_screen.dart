@@ -85,7 +85,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
     });
   }
 
-  void _clearSearch(){
+  void _clearSearch() {
     setState(() {
       _searchTextController.clear();
     });
@@ -133,21 +133,33 @@ class _CharactersScreenState extends State<CharactersScreen> {
 
   Widget BuildCharacterList() {
     return GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 2 / 3,
-          crossAxisSpacing: 1,
-          mainAxisSpacing: 1,
-        ),
-        shrinkWrap: true,
-        physics: const ClampingScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: allCharaters.length,
-        itemBuilder: (context, index) {
-          return CharacterItem(
-            character: allCharaters[index],
-          );
-        });
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 2 / 3,
+        crossAxisSpacing: 1,
+        mainAxisSpacing: 1,
+      ),
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      padding: EdgeInsets.zero,
+      itemCount: _searchTextController.text.isEmpty
+          ? allCharaters.length
+          : searchedForCharacters.length,
+      itemBuilder: (context, index) {
+        return CharacterItem(
+          character: _searchTextController.text.isEmpty
+              ? allCharaters[index]
+              : searchedForCharacters[index],
+        );
+      },
+    );
+  }
+
+  Widget _buildAppBarTitle() {
+    return Text(
+      'Characters',
+      style: TextStyle(color: MyColors.myGrey),
+    );
   }
 
   @override
@@ -155,10 +167,13 @@ class _CharactersScreenState extends State<CharactersScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.myYellow,
-        title: Text(
-          'Characters',
-          style: TextStyle(color: MyColors.myGrey),
-        ),
+        leading: _isSearching
+            ? BackButton(
+                color: MyColors.myGrey,
+              )
+            : Container(),
+        title: _isSearching ? _buildSearchField() : _buildAppBarTitle(),
+        actions: _buildAppBarActions(),
       ),
       body: buildBlocWidget(),
     );
